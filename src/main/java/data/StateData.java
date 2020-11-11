@@ -9,7 +9,7 @@ import pojo.Board;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 public class StateData {
     private Board board;
     private String currentPlayerTurn;

@@ -6,17 +6,20 @@ import pojo.Card;
 import pojo.Coordinate;
 
 public class DataController {
-    public static void getNextCardState(CardState cardState, Card playedCard){
-        if (cardState.getCurrentBlueHand().contains(playedCard)){
-            cardState.getCurrentBlueHand().add(cardState.getCurrentNeutralCard());
-            cardState.getCurrentBlueHand().remove(playedCard);
-            cardState.setCurrentNeutralCard(playedCard);
-        }
 
+    public static void getNextCardState(CardState cardState, Card playedCard){
         if (cardState.getCurrentRedHand().contains(playedCard)){
-            cardState.getCurrentRedHand().add(cardState.getCurrentNeutralCard());
-            cardState.getCurrentRedHand().remove(playedCard);
+            Card tmp = cardState.getCurrentNeutralCard();
+            cardState.getCurrentRedHand().add(tmp);
             cardState.setCurrentNeutralCard(playedCard);
+            cardState.getCurrentRedHand().remove(playedCard);
+        }else if (cardState.getCurrentBlueHand().contains(playedCard)){
+            Card tmp = cardState.getCurrentNeutralCard();
+            cardState.getCurrentBlueHand().add(tmp);
+            cardState.setCurrentNeutralCard(playedCard);
+            cardState.getCurrentBlueHand().remove(playedCard);
+        }else{
+            System.out.println("Card not found in hand");
         }
     }
 

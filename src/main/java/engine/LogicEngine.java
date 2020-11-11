@@ -4,19 +4,20 @@ import data.CardState;
 import pojo.*;
 
 public class LogicEngine {
-    public static void movePiece(Board board, Piece piece, Card card, int moveIndex){
+    public static boolean movePiece(Board board, Piece piece, Card card, int moveIndex){
         Coordinate currentPieceCoordinate = new Coordinate(piece.getCurrentCoordinate());
         Coordinate destination = piece.getCurrentCoordinate().addOffset(card.getAvailableMoves().get(moveIndex));
         if (isLegalMove(destination, board)){
             piece.setCurrentCoordinate(destination);
             board.resetCell(currentPieceCoordinate);
             board.setPiece(piece, piece.getCurrentCoordinate());
+            return true;
         }else {
-            System.out.println("Move Not Legal");
+            return false;
         }
     }
 
-    private static boolean isLegalMove(Coordinate destination, Board board){
+    public static boolean isLegalMove(Coordinate destination, Board board){
         return (isInbound(destination, board.getBoardSize()) && board.getCell(destination).isEmpty());
     }
 

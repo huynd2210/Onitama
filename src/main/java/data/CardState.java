@@ -29,12 +29,15 @@ public class CardState {
     }
 
     public void print(){
+        System.out.println("Blue Hand");
         for (Card c : currentBlueHand){
             c.print();
         }
+        System.out.println("Red Hand:");
         for (Card c : currentRedHand){
             c.print();
         }
+        System.out.println("Neutral Card:");
         this.currentNeutralCard.print();
     }
 }
