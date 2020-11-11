@@ -32,6 +32,7 @@ public class StateData {
 
     }
 
+    //Init Root
     public StateData(CardState cardState){
         this.cardState = cardState;
         this.board = new Board();

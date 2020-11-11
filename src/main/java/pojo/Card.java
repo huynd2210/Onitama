@@ -1,15 +1,14 @@
 package pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Card {
     private String name;
     private String color;
@@ -22,6 +21,21 @@ public class Card {
         for (Coordinate coordinate : other.availableMoves){
             this.availableMoves.add(new Coordinate(coordinate));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+
+        Card card = (Card) o;
+
+        return name != null ? name.equals(card.name) : card.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 
     public void print(){

@@ -8,6 +8,7 @@ import pojo.Coordinate;
 public class DataController {
 
     public static void getNextCardState(CardState cardState, Card playedCard){
+
         if (cardState.getCurrentRedHand().contains(playedCard)){
             Card tmp = cardState.getCurrentNeutralCard();
             cardState.getCurrentRedHand().add(tmp);
@@ -19,6 +20,10 @@ public class DataController {
             cardState.setCurrentNeutralCard(playedCard);
             cardState.getCurrentBlueHand().remove(playedCard);
         }else{
+            System.out.println("CardState status: ");
+            cardState.print();
+            System.out.println("Played Card: ");
+            playedCard.print();
             System.out.println("Card not found in hand");
         }
     }

@@ -44,7 +44,8 @@ public class Solver {
                     for (int j = 0; j < parent.getBoard().getBluePieces().size(); j++) {
                         StateData copy = DataController.offSpring(parent);
                         if (LogicEngine.movePiece(copy.getBoard(), copy.getBoard().getBluePieces().get(j), c, i)){
-//                            DataController.getNextCardState(parent.getCardState(), c);
+                            DataController.getNextCardState(copy.getCardState(), c);
+                            copy.setCurrentPlayerTurn("red");
                             children.add(copy);
                         }
                     }
@@ -57,7 +58,8 @@ public class Solver {
                         StateData copy = DataController.offSpring(parent);
                         DataController.flipMovement(c);
                         if (LogicEngine.movePiece(copy.getBoard(), copy.getBoard().getRedPieces().get(j), c, i)){
-//                            DataController.getNextCardState(parent.getCardState(), c);
+                            DataController.getNextCardState(copy.getCardState(), c);
+                            copy.setCurrentPlayerTurn("blue");
                             children.add(copy);
                         }
                         DataController.flipMovement(c);

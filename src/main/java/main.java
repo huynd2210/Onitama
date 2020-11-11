@@ -31,11 +31,31 @@ public class main {
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
 
         StateData root = new StateData(cardState);
-        root.printState();
+//        root.printState();
+//        root.getCardState().print();
         System.out.println("------------------");
         List<StateData> children = Solver.getNextStates(root);
-        for (StateData s : children) {
+
+
+//        for (StateData s : children) {
+//            System.out.println("State: ");
+//            s.printState();
+//            System.out.println("CardState: ");
+//            s.getCardState().print();
+//        }
+
+        System.out.println("First Child: ");
+        children.get(0).printState();
+        children.get(0).getCardState().print();
+        System.out.println("------------------");
+
+        List<StateData> grandchildren = Solver.getNextStates(children.get(0));
+        for (StateData s : grandchildren){
+            System.out.println("State: ");
             s.printState();
+            System.out.println("CardState: ");
+            s.getCardState().print();
         }
+
     }
 }
