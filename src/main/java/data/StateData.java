@@ -19,7 +19,7 @@ public class StateData {
     private List<StateData> children;
     private StateData parent;
     private CardState cardState;
-//    private int currentDepth;
+    private int currentDepth;
 
     public StateData(StateData other){
         this.cardState = new CardState(other.cardState);
@@ -30,7 +30,7 @@ public class StateData {
         this.stateValue = other.stateValue;
         copyChildren(other);
         this.parent = other.parent;
-//        this.currentDepth = other.currentDepth;
+        this.currentDepth = other.currentDepth;
     }
 
     //Init Root
@@ -43,6 +43,7 @@ public class StateData {
         this.stateValue = 0;
         this.children = new ArrayList<>();
         this.parent = null;
+        this.currentDepth = 0;
     }
 
     private void copyChildren(StateData other){
