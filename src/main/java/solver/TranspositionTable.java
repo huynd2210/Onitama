@@ -24,6 +24,10 @@ public class TranspositionTable {
         }
     }
 
+    public State get(Integer hash){
+        return this.stateHashMapping.get(hash);
+    }
+
     public boolean isExists(State state){
         return this.stateHashMapping.containsKey(state.hashCode());
     }

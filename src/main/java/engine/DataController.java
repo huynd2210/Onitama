@@ -36,7 +36,7 @@ public class DataController {
 
     public static State offSpring(State parent) {
         State child = new State(parent);
-        child.setParent(parent);
+        child.addParent(parent);
         return child;
     }
 

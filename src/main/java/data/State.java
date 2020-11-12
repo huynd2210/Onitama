@@ -17,7 +17,7 @@ public class State {
     private boolean isEnd;
     private double stateValue;
     private List<State> children;
-    private State parent;
+    private List<State> parent;
     private CardState cardState;
     private int currentDepth;
 
@@ -42,7 +42,7 @@ public class State {
         this.isEnd = false;
         this.stateValue = 0;
         this.children = new ArrayList<>();
-        this.parent = null;
+        this.parent = new ArrayList<>();
         this.currentDepth = 0;
     }
 
@@ -69,8 +69,8 @@ public class State {
         }
     }
 
-    public void setParent(State parent){
-        this.parent = parent;
+    public void addParent(State parent){
+        this.parent.add(parent);
     }
 
     @Override

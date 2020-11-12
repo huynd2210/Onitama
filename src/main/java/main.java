@@ -124,9 +124,22 @@ public class main {
     }
 
     public static void main(String[] args) {
-        Board board = DataController.parseNotation("ppmpp/5/5/2P2/PPM1P");
-        board.printBoard();
+//        Board board = DataController.parseNotation("ppmpp/5/5/2P2/PPM1P");
+//        board.printBoard();
 
+//        List<Card> blue = new ArrayList<>();
+//        blue.add(CardList.tigerCard);
+//        blue.add(CardList.crabCard);
+//        List<Card> red = new ArrayList<>();
+//        red.add(CardList.horseCard);
+//        red.add(CardList.craneCard);
+//        CardState cardState = new CardState(blue, red, CardList.rabbitCard);
+//        State root = new State(cardState);
+//        root.getBoard().printBoard();
+//        cardState.print();
+//        System.out.print("Number of Possible Moves :");
+//        System.out.println(Solver.getNumberOfPossibleMove(root));
 
+        testRootGrandChildren();
     }
 }
