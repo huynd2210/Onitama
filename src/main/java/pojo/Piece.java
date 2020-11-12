@@ -1,10 +1,15 @@
 package pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import pojo.Coordinate;
 
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Piece {
     private String color;
     private boolean isMaster;
@@ -27,6 +32,21 @@ public class Piece {
         }else{
             this.currentCoordinate = new Coordinate(other.currentCoordinate);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece)) return false;
+
+        Piece piece = (Piece) o;
+
+        return abbreviation != null ? abbreviation.equals(piece.abbreviation) : piece.abbreviation == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return abbreviation != null ? abbreviation.hashCode() : 0;
     }
 
     @Override

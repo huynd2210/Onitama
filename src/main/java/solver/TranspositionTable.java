@@ -1,6 +1,6 @@
 package solver;
 
-import data.StateData;
+import data.State;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,23 +8,23 @@ import java.util.Map;
 
 
 public class TranspositionTable {
-    private Map<Integer, StateData> stateHashMapping;
+    private Map<Integer, State> stateHashMapping;
 
     public TranspositionTable(){
         this.stateHashMapping = new HashMap<>();
     }
 
-    public void put(StateData state){
+    public void put(State state){
         this.stateHashMapping.put(state.hashCode(), state);
     }
 
-    public void put(List<StateData> stateList){
-        for (StateData s : stateList){
+    public void put(List<State> stateList){
+        for (State s : stateList){
             put(s);
         }
     }
 
-    public boolean isExists(StateData state){
+    public boolean isExists(State state){
         return this.stateHashMapping.containsKey(state.hashCode());
     }
 }
