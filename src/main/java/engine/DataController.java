@@ -5,6 +5,11 @@ import data.State;
 import pojo.Board;
 import pojo.Card;
 import pojo.Coordinate;
+import pojo.PieceList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DataController {
 
@@ -46,23 +51,50 @@ public class DataController {
         for (int i = 0; i < board.getBoardSize(); i++) {
             int emptySpot = 0;
             for (int j = 0; j < board.getBoardSize(); j++) {
-                if (!board.getCell(new Coordinate(i,j)).isEmpty()){
-                    if (emptySpot != 0){
+                if (!board.getCell(new Coordinate(i, j)).isEmpty()) {
+                    if (emptySpot != 0) {
                         notation.append(emptySpot);
                     }
                     emptySpot = 0;
                     notation.append(board.getCell(new Coordinate(i, j)).getPiece().getAbbreviation());
-                }else{
+                } else {
                     emptySpot += 1;
                 }
             }
-            if (emptySpot != 0){
+            if (emptySpot != 0) {
                 notation.append(emptySpot);
             }
             notation.append("/");
         }
         notation.deleteCharAt(notation.length() - 1);
         return notation.toString();
+    }
+
+    private static List<String> splitString(String input, String regex) {
+        return new ArrayList<>(Arrays.asList(input.split(regex)));
+    }
+
+    public static Board parseNotation(String notation) {
+        List<String> notationSplit = splitString(notation, "/");
+        Board board = new Board();
+        board.initEmptyBoard();
+        for (int i = 0; i < notationSplit.size(); i++) {
+            int emptySpot = 0;
+            for (int j = 0; j < notationSplit.get(i).length(); j++) {
+                if (notationSplit.get(i).charAt(j) == 'p') {
+                    board.setPiece(PieceList.redStudent, new Coordinate(i, j + emptySpot));
+                } else if (notationSplit.get(i).charAt(j) == 'm') {
+                    board.setPiece(PieceList.redMaster, new Coordinate(i, j + emptySpot));
+                } else if (notationSplit.get(i).charAt(j) == 'P') {
+                    board.setPiece(PieceList.blueStudent, new Coordinate(i, j + emptySpot));
+                } else if (notationSplit.get(i).charAt(j) == 'M') {
+                    board.setPiece(PieceList.blueMaster, new Coordinate(i, j + emptySpot));
+                } else {
+                    emptySpot = Character.getNumericValue(notationSplit.get(i).charAt(j)) - 1;
+                }
+            }
+        }
+        return board;
     }
 
 }

@@ -106,7 +106,7 @@ public class main {
         System.out.println(childrenExist);
     }
 
-    public static void main(String[] args) {
+    public static void testNotation(){
         List<Card> blue = new ArrayList<>();
         blue.add(CardList.tigerCard);
         blue.add(CardList.crabCard);
@@ -121,5 +121,12 @@ public class main {
         for (State s : children){
             System.out.println(DataController.boardToNotation(s.getBoard()));
         }
+    }
+
+    public static void main(String[] args) {
+        Board board = DataController.parseNotation("ppmpp/5/5/2P2/PPM1P");
+        board.printBoard();
+
+
     }
 }
