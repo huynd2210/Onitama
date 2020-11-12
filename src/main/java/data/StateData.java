@@ -1,15 +1,15 @@
 package data;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import pojo.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 public class StateData {
     private Board board;
     private String currentPlayerTurn;
@@ -19,6 +19,7 @@ public class StateData {
     private List<StateData> children;
     private StateData parent;
     private CardState cardState;
+//    private int currentDepth;
 
     public StateData(StateData other){
         this.cardState = new CardState(other.cardState);
@@ -29,7 +30,7 @@ public class StateData {
         this.stateValue = other.stateValue;
         copyChildren(other);
         this.parent = other.parent;
-
+//        this.currentDepth = other.currentDepth;
     }
 
     //Init Root
@@ -69,5 +70,28 @@ public class StateData {
 
     public void setParent(StateData parent){
         this.parent = parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StateData)) return false;
+
+        StateData stateData = (StateData) o;
+
+        if (isEnd != stateData.isEnd) return false;
+        if (board != null ? !board.equals(stateData.board) : stateData.board != null) return false;
+        if (currentPlayerTurn != null ? !currentPlayerTurn.equals(stateData.currentPlayerTurn) : stateData.currentPlayerTurn != null)
+            return false;
+        return cardState != null ? cardState.equals(stateData.cardState) : stateData.cardState == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = board != null ? board.hashCode() : 0;
+        result = 31 * result + (currentPlayerTurn != null ? currentPlayerTurn.hashCode() : 0);
+        result = 31 * result + (isEnd ? 1 : 0);
+        result = 31 * result + (cardState != null ? cardState.hashCode() : 0);
+        return result;
     }
 }
