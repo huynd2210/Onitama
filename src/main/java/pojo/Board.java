@@ -2,6 +2,7 @@ package pojo;
 
 import lombok.Data;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,18 @@ public class Board {
 
     public void resetCell(Coordinate coordinate) {
         this.board[coordinate.getI()][coordinate.getJ()] = new Cell();
+    }
+
+    public void removePieceOnCapture(Coordinate destination) {
+        if (!this.board[destination.getI()][destination.getJ()].isEmpty()) {
+            Coordinate pieceCoordinate = this.getCell(destination).getPiece().getCurrentCoordinate();
+            String c = this.getCell(destination).getPiece().getColor();
+            if (c.equalsIgnoreCase("red")) {
+                this.redPieces.removeIf(p -> p.getCurrentCoordinate().equals(pieceCoordinate));
+            } else {
+                this.bluePieces.removeIf(p -> p.getCurrentCoordinate().equals(pieceCoordinate));
+            }
+        }
     }
 
     public void setPiece(Piece piece, Coordinate coordinate) {

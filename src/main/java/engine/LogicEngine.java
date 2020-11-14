@@ -52,10 +52,41 @@ public class LogicEngine {
         }
     }
 
-    public static boolean movePiece(Board board, Piece piece, Card card, int moveIndex) {
+    public static boolean canCapture(Coordinate destination, Board board, boolean isBlueTurn) {
+
+        if (isInbound(destination, board.getBoardSize())){
+            if (!board.getCell(destination).isEmpty()) {
+                if (isBlueTurn) {
+                    if (board.getCell(destination).getPiece().getColor().equalsIgnoreCase("red")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (board.getCell(destination).getPiece().getColor().equalsIgnoreCase("blue")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public static boolean movePiece(Board board, Piece piece, Card card, int moveIndex, boolean isBlueTurn) {
         Coordinate currentPieceCoordinate = new Coordinate(piece.getCurrentCoordinate());
         Coordinate destination = piece.getCurrentCoordinate().addOffset(card.getAvailableMoves().get(moveIndex));
-        if (isLegalMove(destination, board)) {
+
+        if (canCapture(destination, board, isBlueTurn)) {
+            board.removePieceOnCapture(destination);
+            piece.setCurrentCoordinate(destination);
+            board.setPiece(piece, piece.getCurrentCoordinate());
+            return true;
+        } else if (isLegalMove(destination, board)) {
             piece.setCurrentCoordinate(destination);
             board.resetCell(currentPieceCoordinate);
             board.setPiece(piece, piece.getCurrentCoordinate());

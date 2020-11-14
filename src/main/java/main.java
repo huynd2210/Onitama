@@ -16,7 +16,7 @@ public class main {
     public static void testPieceMovement() {
         Board board = new Board();
         board.printBoard();
-        LogicEngine.movePiece(board, board.getBluePieces().get(0), CardList.tigerCard, 1);
+        LogicEngine.movePiece(board, board.getBluePieces().get(0), CardList.tigerCard, 1, true);
         board.printBoard();
     }
 
@@ -43,7 +43,8 @@ public class main {
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
         State root = new State(cardState);
         System.out.println("------------------");
-        List<State> children = Solver.getNextStates(root, new TranspositionTable());
+        TranspositionTable transpositionTable = new TranspositionTable();
+        List<State> children = Solver.getNextStates(root, transpositionTable);
         for (State s : children) {
             System.out.println("State: ");
             s.printState();
@@ -106,7 +107,7 @@ public class main {
         System.out.println(childrenExist);
     }
 
-    public static void testNotation(){
+    public static void testNotation() {
         List<Card> blue = new ArrayList<>();
         blue.add(CardList.tigerCard);
         blue.add(CardList.crabCard);
@@ -118,28 +119,55 @@ public class main {
         System.out.println(DataController.boardToNotation(root.getBoard()));
 
         List<State> children = Solver.getNextStates(root, new TranspositionTable());
-        for (State s : children){
+        for (State s : children) {
             System.out.println(DataController.boardToNotation(s.getBoard()));
         }
     }
+
+    public static void testGetStateValue(){
+        List<Card> blue = new ArrayList<>();
+        blue.add(CardList.tigerCard);
+        blue.add(CardList.crabCard);
+        List<Card> red = new ArrayList<>();
+        red.add(CardList.horseCard);
+        red.add(CardList.craneCard);
+        CardState cardState = new CardState(blue, red, CardList.rabbitCard);
+        State root = new State(cardState);
+        List<State> children = Solver.getNextStates(root,new TranspositionTable());
+        for (State s : children){
+            s.printState();
+            s.getCardState().print();
+            System.out.println("State Value: " +  Solver.getStateValue(s, false));
+            System.out.println("Number of Possible Moves for blue:" + Solver.getNumberOfPossibleMove(s, true));
+            System.out.println("Number of Possible Moves for red:" + Solver.getNumberOfPossibleMove(s, false));
+            System.out.println("---------------");
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Board board = DataController.parseNotation("ppmpp/5/5/2P2/PPM1P");
 //        board.printBoard();
 
-//        List<Card> blue = new ArrayList<>();
-//        blue.add(CardList.tigerCard);
-//        blue.add(CardList.crabCard);
-//        List<Card> red = new ArrayList<>();
-//        red.add(CardList.horseCard);
-//        red.add(CardList.craneCard);
-//        CardState cardState = new CardState(blue, red, CardList.rabbitCard);
-//        State root = new State(cardState);
-//        root.getBoard().printBoard();
-//        cardState.print();
-//        System.out.print("Number of Possible Moves :");
-//        System.out.println(Solver.getNumberOfPossibleMove(root));
+        List<Card> blue = new ArrayList<>();
+        blue.add(CardList.tigerCard);
+        blue.add(CardList.crabCard);
+        List<Card> red = new ArrayList<>();
+        red.add(CardList.horseCard);
+        red.add(CardList.craneCard);
+        CardState cardState = new CardState(blue, red, CardList.rabbitCard);
+        State root = new State(cardState);
 
-        testRootGrandChildren();
+        System.out.println("Negamax value: " + Solver.negamax(root, 2, true));
+
+//        int depthMax = 5;
+//        System.out.println("Iterative Negamax for blue for depth 5: ");
+//        for (int i = 1; i <= depthMax; i++) {
+//            System.out.println("Depth: " + i + " Score: " + Solver.negamax(root, i, true));
+//        }
+
+
+
+
     }
 }
