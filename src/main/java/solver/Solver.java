@@ -80,16 +80,23 @@ public class Solver {
     }
 
     //first player is maximizer
-    private static double getEndValue(State state, boolean isBlueMaximizer) {
+    private static double getEndValue(State state) {
         String winner = LogicEngine.determineWinner(state.getBoard());
-        if ((winner.equalsIgnoreCase("red") && isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && !isBlueMaximizer)) {
+
+        if (winner.equalsIgnoreCase("red")){
             return Double.NEGATIVE_INFINITY;
-        } else if ((winner.equalsIgnoreCase("red") && !isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && isBlueMaximizer)) {
+        }else{
             return Double.POSITIVE_INFINITY;
-        } else {
-            System.out.println("Bug at GetEndValue");
-            return 0;
         }
+//        if ((winner.equalsIgnoreCase("red") && isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && !isBlueMaximizer)) {
+//            System.out.println("reassadsadsada");
+//            return Double.NEGATIVE_INFINITY;
+//        } else if ((winner.equalsIgnoreCase("red") && !isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && isBlueMaximizer)) {
+//            return Double.POSITIVE_INFINITY;
+//        } else {
+//            System.out.println("Bug at GetEndValue");
+//            return 0;
+//        }
     }
 
     public static int getNumberOfPossibleMove(State state, boolean isBlueTurn) {
@@ -122,9 +129,9 @@ public class Solver {
         return totalMoves;
     }
 
-    public static double getStateValue(State state, boolean isBlueMaximizer) {
+    public static double getStateValue(State state) {
         if (state.isEnd()) {
-            return getEndValue(state, isBlueMaximizer);
+            return getEndValue(state);
         } else {
             /*value for maximizer =
                 (Amount of maximizer pieces * weight) - (Amount of minimizer pieces * weight)
@@ -132,20 +139,22 @@ public class Solver {
             */
             double stateValue = state.getBoard().getBluePieces().size();
             stateValue -= state.getBoard().getRedPieces().size();
-            stateValue += getNumberOfPossibleMove(state, isBlueMaximizer);
-            stateValue -= getNumberOfPossibleMove(state, !isBlueMaximizer);
-            if (!isBlueMaximizer) {
-                stateValue *= -1;
-                return stateValue;
-            } else {
-                return stateValue;
-            }
+            stateValue += getNumberOfPossibleMove(state, true);
+            stateValue -= getNumberOfPossibleMove(state, false);
+
+//            if (!isblueturn) {
+//                stateValue *= -1;
+//                return stateValue;
+//            } else {
+//                return stateValue;
+//            }
+            return stateValue;
         }
     }
 
     public static void explainStateValue(State state, boolean isBlueMaximizer){
         if (state.isEnd()) {
-            System.out.println("Terminal State value is: " + getEndValue(state, isBlueMaximizer));
+            System.out.println("Terminal State value is: " + getEndValue(state));
         } else {
             /*value for maximizer =
                 (Amount of maximizer pieces * weight) - (Amount of minimizer pieces * weight)
@@ -163,13 +172,13 @@ public class Solver {
         }
     }
 
-    public static double negamax(State state, int depth, boolean isMaximizer) {
+    public static double negamax(State state, int depth, boolean isBlue, TranspositionTable table) {
 //        if (depth == 0){
 //            state.printState();
 //        }
 
         if (depth == 0) {
-            double value = getStateValue(state, isMaximizer);
+            double value = getStateValue(state);
             state.setStateValue(value);
             state.printState();
             state.getCardState().print();
@@ -177,14 +186,14 @@ public class Solver {
             return value;
         }
         if (state.isEnd()) {
-            double value = getEndValue(state, isMaximizer);
+            double value = getStateValue(state);
             state.setStateValue(value);
             return value;
         }
         double value = Double.NEGATIVE_INFINITY;
-        List<State> children = getNextStates(state, new TranspositionTable());
+        List<State> children = getNextStates(state, table);
         for (State child : children) {
-            value = Math.max(value, -negamax(child, depth - 1, !isMaximizer));
+            value = Math.max(value, -negamax(child, depth - 1, !isBlue, table));
         }
         state.setStateValue(value);
         return value;

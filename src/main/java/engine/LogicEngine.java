@@ -42,19 +42,47 @@ public class LogicEngine {
         }
     }
 
+    private static boolean isRedWin(Board board) {
+        if (!board.getBluePieces().contains(PieceList.blueMaster)) {
+            return true;
+        } else if (!board.getCell(new Coordinate(board.getBoardSize() - 1, 2)).isEmpty()) {
+            if (board.getCell(new Coordinate(board.getBoardSize() - 1, 2)).getPiece().equals(PieceList.redMaster)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isBlueWin(Board board) {
+        if (!board.getRedPieces().contains(PieceList.redMaster)) {
+            return true;
+        } else if (!board.getCell(new Coordinate(0, 2)).isEmpty()) {
+            if (board.getCell(new Coordinate(0, 2)).getPiece().equals(PieceList.blueMaster)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static String determineWinner(Board board) {
-        if (!board.getBluePieces().contains(PieceList.blueMaster) || board.getCell(new Coordinate(board.getBoardSize() - 1, 2)).getPiece().equals(PieceList.redMaster)) {
+        if (isRedWin(board)) {
             return "red";
-        } else if (!board.getRedPieces().contains(PieceList.redMaster) || board.getCell(new Coordinate(0, 2)).getPiece().equals(PieceList.blueMaster)) {
+        } else if (isBlueWin(board)) {
             return "blue";
         } else {
+            System.out.println("determineWinner doesnt return winner");
             return "";
         }
     }
 
     public static boolean canCapture(Coordinate destination, Board board, boolean isBlueTurn) {
-
-        if (isInbound(destination, board.getBoardSize())){
+        if (isInbound(destination, board.getBoardSize())) {
             if (!board.getCell(destination).isEmpty()) {
                 if (isBlueTurn) {
                     if (board.getCell(destination).getPiece().getColor().equalsIgnoreCase("red")) {
@@ -72,7 +100,7 @@ public class LogicEngine {
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -85,6 +113,7 @@ public class LogicEngine {
             board.removePieceOnCapture(destination);
             piece.setCurrentCoordinate(destination);
             board.setPiece(piece, piece.getCurrentCoordinate());
+            board.resetCell(currentPieceCoordinate);
             return true;
         } else if (isLegalMove(destination, board)) {
             piece.setCurrentCoordinate(destination);
