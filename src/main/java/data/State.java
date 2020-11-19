@@ -16,7 +16,7 @@ public class State {
     private String winner;
     private boolean isEnd;
     private double stateValue;
-    private List<State> childrenHash;
+    private List<Integer> childrenHash;
     private List<Integer> parentHash;
     private CardState cardState;
     private int currentDepth;
@@ -52,9 +52,7 @@ public class State {
 
     private void copyChildren(State other){
         this.childrenHash = new ArrayList<>();
-        for (State sd : other.childrenHash){
-            this.childrenHash.add(new State(sd));
-        }
+        this.childrenHash.addAll(other.childrenHash);
     }
 
     public void printState(){
@@ -73,8 +71,18 @@ public class State {
         }
     }
 
+    public void setChildrenHash(List<State> children){
+        for (State s : children){
+            this.childrenHash.add(s.hash);
+        }
+    }
+
     public void addParent(State parent){
-        this.parentHash.add(parent.hashCode());
+        this.parentHash.add(parent.hash);
+    }
+
+    public void updateHash(){
+        this.hash = this.hashCode();
     }
 
     @Override

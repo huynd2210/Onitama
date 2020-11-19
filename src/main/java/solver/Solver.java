@@ -43,11 +43,12 @@ public class Solver {
                         State copy = DataController.offSpring(parent);
                         if (LogicEngine.movePiece(copy.getBoard(), copy.getBoard().getBluePieces().get(j), c, i, true)) {
                             setupNextState(copy, c, copy.getCurrentPlayerTurn());
+                            copy.updateHash();
                             if (!table.isExists(copy)) {
                                 children.add(copy);
                             } else {
                                 //table get child add parent
-                                table.get(copy.hashCode()).addParent(parent);
+                                table.get(copy.getHash()).addParent(parent);
                             }
                         }
                     }
@@ -61,11 +62,12 @@ public class Solver {
                         DataController.flipMovement(c);
                         if (LogicEngine.movePiece(copy.getBoard(), copy.getBoard().getRedPieces().get(j), c, i, false)) {
                             setupNextState(copy, c, copy.getCurrentPlayerTurn());
+                            copy.updateHash();
                             if (!table.isExists(copy)) {
                                 children.add(copy);
                             } else {
                                 //table get child add parent
-                                table.get(copy.hashCode()).addParent(parent);
+                                table.get(copy.getHash()).addParent(parent);
                             }
                         }
                         DataController.flipMovement(c);

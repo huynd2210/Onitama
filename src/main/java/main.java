@@ -1,5 +1,6 @@
 import data.CardState;
 import data.State;
+import data.StateData;
 import engine.DataController;
 import engine.LogicEngine;
 import pojo.Board;
@@ -124,7 +125,7 @@ public class main {
         }
     }
 
-    public static void testGetStateValue(){
+    public static void testGetStateValue() {
         List<Card> blue = new ArrayList<>();
         blue.add(CardList.tigerCard);
         blue.add(CardList.crabCard);
@@ -133,11 +134,11 @@ public class main {
         red.add(CardList.craneCard);
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
         State root = new State(cardState);
-        List<State> children = Solver.getNextStates(root,new TranspositionTable());
-        for (State s : children){
+        List<State> children = Solver.getNextStates(root, new TranspositionTable());
+        for (State s : children) {
             s.printState();
             s.getCardState().print();
-            System.out.println("State Value: " +  Solver.evaluateState(s));
+            System.out.println("State Value: " + Solver.evaluateState(s));
             System.out.println("Number of Possible Moves for blue:" + Solver.getNumberOfPossibleMove(s, true));
             System.out.println("Number of Possible Moves for red:" + Solver.getNumberOfPossibleMove(s, false));
             System.out.println("---------------");
@@ -157,10 +158,13 @@ public class main {
         red.add(CardList.craneCard);
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
         State root = new State(cardState);
+        Solver.getNextStates(root, new TranspositionTable());
+        for (Integer s : root.getChildrenHash()){
+            System.out.println(s);
+        }
+        StateData tmp = new StateData(root);
+        System.out.println(tmp);
 
-
-
-//        Solver.getNextStates(root,new TranspositionTable());
 
 //        System.out.println(Solver.negamax(root,6,true, new TranspositionTable()));
 
@@ -169,8 +173,6 @@ public class main {
 //        for (int i = 1; i <= depthMax; i++) {
 //            System.out.println("Depth: " + i + " Score: " + Solver.negamax(root, i, true));
 //        }
-
-
 
 
     }

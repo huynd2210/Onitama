@@ -20,15 +20,13 @@ public class StateData {
     private int currentDepth;
 
     public StateData(State state){
-        this.hash = state.hashCode();
+        this.hash = state.getHash();
         this.boardNotation = DataController.boardToNotation(state.getBoard());
         this.currentPlayerNotation = StateDataProcessor.getCurrentPlayerNotation(state);
         this.isEnd = state.isEnd();
         this.stateValue = state.getStateValue();
         this.childrenHash = new ArrayList<>();
-        for (State s : state.getChildrenHash()){
-            this.childrenHash.add(s.hashCode());
-        }
+        this.childrenHash.addAll(state.getChildrenHash());
         this.parentHash = new ArrayList<>();
         this.parentHash.addAll(state.getParentHash());
         this.cardStateNotation = DataController.getCardStateNotation(state.getCardState());
