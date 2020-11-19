@@ -97,4 +97,19 @@ public class DataController {
         return board;
     }
 
+
+    public static String getCardStateNotation(CardState cardState){
+        StringBuilder sb = new StringBuilder();
+        sb.append(cardState.getCurrentNeutralCard().getName());
+        sb.append("/");
+        for (Card c : cardState.getCurrentBlueHand()){
+            sb.append(c.getName());
+            sb.append("/");
+        }
+        for (Card c : cardState.getCurrentRedHand()){
+            sb.append(c.getName());
+            sb.append("/");
+        }
+        return sb.toString();
+    }
 }

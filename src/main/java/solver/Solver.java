@@ -3,11 +3,9 @@ package solver;
 import data.State;
 import engine.DataController;
 import engine.LogicEngine;
-import lombok.extern.java.Log;
 import pojo.Card;
 import pojo.Piece;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +73,7 @@ public class Solver {
                 }
             }
         }
-        parent.setChildren(children);
+        parent.setChildrenHash(children);
         return children;
     }
 
@@ -83,9 +81,9 @@ public class Solver {
     private static double getEndValue(State state) {
         String winner = LogicEngine.determineWinner(state.getBoard());
 
-        if (winner.equalsIgnoreCase("red")){
+        if (winner.equalsIgnoreCase("red")) {
             return Double.NEGATIVE_INFINITY;
-        }else{
+        } else {
             return Double.POSITIVE_INFINITY;
         }
 //        if ((winner.equalsIgnoreCase("red") && isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && !isBlueMaximizer)) {
@@ -129,7 +127,7 @@ public class Solver {
         return totalMoves;
     }
 
-    public static double getStateValue(State state) {
+    public static double evaluateState(State state) {
         if (state.isEnd()) {
             return getEndValue(state);
         } else {
@@ -141,52 +139,21 @@ public class Solver {
             stateValue -= state.getBoard().getRedPieces().size();
             stateValue += getNumberOfPossibleMove(state, true);
             stateValue -= getNumberOfPossibleMove(state, false);
-
-//            if (!isblueturn) {
-//                stateValue *= -1;
-//                return stateValue;
-//            } else {
-//                return stateValue;
-//            }
             return stateValue;
         }
     }
 
-    public static void explainStateValue(State state, boolean isBlueMaximizer){
-        if (state.isEnd()) {
-            System.out.println("Terminal State value is: " + getEndValue(state));
-        } else {
-            /*value for maximizer =
-                (Amount of maximizer pieces * weight) - (Amount of minimizer pieces * weight)
-                 + (number of possible moves for maximizer - number of possible moves for minimizer)
-            */
-            double stateValue = state.getBoard().getBluePieces().size();
-            System.out.println("State Value from number of blue pieces is: " + state.getBoard().getBluePieces().size());
-            stateValue -= state.getBoard().getRedPieces().size();
-            System.out.println("Remaining redpieces: " + state.getBoard().getRedPieces().size());
-
-            stateValue += getNumberOfPossibleMove(state, isBlueMaximizer);
-            System.out.println("Plus number of Possible Move for blue: " + getNumberOfPossibleMove(state, isBlueMaximizer));
-            stateValue -= getNumberOfPossibleMove(state, !isBlueMaximizer);
-            System.out.println("minus number of possible move for red " + getNumberOfPossibleMove(state, !isBlueMaximizer));
-        }
-    }
-
     public static double negamax(State state, int depth, boolean isBlue, TranspositionTable table) {
-//        if (depth == 0){
-//            state.printState();
-//        }
-
         if (depth == 0) {
-            double value = getStateValue(state);
+            double value = evaluateState(state);
             state.setStateValue(value);
-            state.printState();
-            state.getCardState().print();
-            System.out.println("----------");
+//            state.printState();
+//            state.getCardState().print();
+//            System.out.println("----------");
             return value;
         }
         if (state.isEnd()) {
-            double value = getStateValue(state);
+            double value = evaluateState(state);
             state.setStateValue(value);
             return value;
         }

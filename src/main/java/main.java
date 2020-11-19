@@ -137,7 +137,7 @@ public class main {
         for (State s : children){
             s.printState();
             s.getCardState().print();
-            System.out.println("State Value: " +  Solver.getStateValue(s));
+            System.out.println("State Value: " +  Solver.evaluateState(s));
             System.out.println("Number of Possible Moves for blue:" + Solver.getNumberOfPossibleMove(s, true));
             System.out.println("Number of Possible Moves for red:" + Solver.getNumberOfPossibleMove(s, false));
             System.out.println("---------------");
@@ -158,8 +158,11 @@ public class main {
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
         State root = new State(cardState);
 
-//        System.out.println("Negamax value: " + Solver.negamax(root, 3, true, new TranspositionTable()));
 
+
+//        Solver.getNextStates(root,new TranspositionTable());
+
+//        System.out.println(Solver.negamax(root,6,true, new TranspositionTable()));
 
 //        int depthMax = 5;
 //        System.out.println("Iterative Negamax for blue for depth 5: ");

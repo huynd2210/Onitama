@@ -16,10 +16,11 @@ public class State {
     private String winner;
     private boolean isEnd;
     private double stateValue;
-    private List<State> children;
-    private List<State> parent;
+    private List<State> childrenHash;
+    private List<Integer> parentHash;
     private CardState cardState;
     private int currentDepth;
+    private int hash;
 
     public State(State other){
         this.cardState = new CardState(other.cardState);
@@ -29,8 +30,10 @@ public class State {
         this.isEnd = other.isEnd;
         this.stateValue = other.stateValue;
         copyChildren(other);
-        this.parent = other.parent;
+        this.parentHash = new ArrayList<>();
+        this.parentHash.addAll(other.parentHash);
         this.currentDepth = other.currentDepth;
+        this.hash = other.hash;
     }
 
     //Init Root
@@ -41,15 +44,16 @@ public class State {
         this.winner = "none";
         this.isEnd = false;
         this.stateValue = 0;
-        this.children = new ArrayList<>();
-        this.parent = new ArrayList<>();
+        this.childrenHash = new ArrayList<>();
+        this.parentHash = new ArrayList<>();
         this.currentDepth = 0;
+        this.hash = this.hashCode();
     }
 
     private void copyChildren(State other){
-        this.children = new ArrayList<>();
-        for (State sd : other.children){
-            this.children.add(new State(sd));
+        this.childrenHash = new ArrayList<>();
+        for (State sd : other.childrenHash){
+            this.childrenHash.add(new State(sd));
         }
     }
 
@@ -70,7 +74,7 @@ public class State {
     }
 
     public void addParent(State parent){
-        this.parent.add(parent);
+        this.parentHash.add(parent.hashCode());
     }
 
     @Override

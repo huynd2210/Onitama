@@ -1,22 +1,38 @@
 package data;
 
+import engine.DataController;
+import engine.StateDataProcessor;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class StateData {
+    private int hash;
     private String boardNotation;
     private char currentPlayerNotation;
     private boolean isEnd;
     private double stateValue;
     private List<Integer> childrenHash;
-    private Integer parentHash;
+    private List<Integer> parentHash;
     private String cardStateNotation;
     private int currentDepth;
 
     public StateData(State state){
-
+        this.hash = state.hashCode();
+        this.boardNotation = DataController.boardToNotation(state.getBoard());
+        this.currentPlayerNotation = StateDataProcessor.getCurrentPlayerNotation(state);
+        this.isEnd = state.isEnd();
+        this.stateValue = state.getStateValue();
+        this.childrenHash = new ArrayList<>();
+        for (State s : state.getChildrenHash()){
+            this.childrenHash.add(s.hashCode());
+        }
+        this.parentHash = new ArrayList<>();
+        this.parentHash.addAll(state.getParentHash());
+        this.cardStateNotation = DataController.getCardStateNotation(state.getCardState());
+        this.currentDepth = state.getCurrentDepth();
     }
 
     @Override
@@ -40,5 +56,28 @@ public class StateData {
         result = 31 * result + (isEnd ? 1 : 0);
         result = 31 * result + (cardStateNotation != null ? cardStateNotation.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.hash);
+        sb.append(",");
+        sb.append(this.boardNotation);
+        sb.append(",");
+        sb.append(this.currentPlayerNotation);
+        sb.append(",");
+        sb.append(this.isEnd);
+        sb.append(",");
+        sb.append(this.stateValue);
+        sb.append(",");
+        sb.append(this.childrenHash);
+        sb.append(",");
+        sb.append(this.parentHash);
+        sb.append(",");
+        sb.append(this.cardStateNotation);
+        sb.append(",");
+        sb.append(this.currentDepth);
+        return sb.toString();
     }
 }
