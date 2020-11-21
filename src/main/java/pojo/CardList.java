@@ -1,6 +1,8 @@
 package pojo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CardList {
     public static final Card tigerCard = new Card("tiger", "blue", Arrays.asList(new Coordinate(1, 0), new Coordinate(-2, 0)));

@@ -19,7 +19,7 @@ public class StateData {
     private String cardStateNotation;
     private int currentDepth;
 
-    public StateData(State state){
+    public StateData(State state) {
         this.hash = state.getHash();
         this.boardNotation = DataController.boardToNotation(state.getBoard());
         this.currentPlayerNotation = StateDataProcessor.getCurrentPlayerNotation(state);
@@ -31,6 +31,18 @@ public class StateData {
         this.parentHash.addAll(state.getParentHash());
         this.cardStateNotation = DataController.getCardStateNotation(state.getCardState());
         this.currentDepth = state.getCurrentDepth();
+    }
+
+    public StateData(String[] data) {
+        this.hash = Integer.parseInt(data[0]);
+        this.boardNotation = data[1];
+        this.currentPlayerNotation = data[2].charAt(0);
+        this.isEnd = Boolean.parseBoolean(data[3]);
+        this.stateValue = Double.parseDouble(data[4]);
+        this.childrenHash = DataController.initHashFromString(data[5]);
+        this.parentHash = DataController.initHashFromString(data[6]);
+        this.cardStateNotation = data[7];
+        this.currentDepth = Integer.parseInt(data[8]);
     }
 
     @Override
@@ -60,22 +72,23 @@ public class StateData {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.hash);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.boardNotation);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.currentPlayerNotation);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.isEnd);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.stateValue);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.childrenHash);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.parentHash);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.cardStateNotation);
-        sb.append(",");
+        sb.append(";");
         sb.append(this.currentDepth);
+        sb.append("\n");
         return sb.toString();
     }
 }

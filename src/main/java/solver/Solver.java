@@ -1,18 +1,24 @@
 package solver;
 
 import data.State;
+import data.StateData;
 import engine.DataController;
 import engine.LogicEngine;
+import engine.IOEngine;
 import pojo.Card;
 import pojo.Piece;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Solver {
 
     private static final double pieceValueWeight = 1;
     private static final double numberOfAvailbleMoveWeight = 1;
+    private static final double discountValue = 0.1;
 
 
     private static void setupNextState(State copy, Card playedCard, String currentPlayerTurn) {
@@ -88,16 +94,41 @@ public class Solver {
         } else {
             return Double.POSITIVE_INFINITY;
         }
-//        if ((winner.equalsIgnoreCase("red") && isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && !isBlueMaximizer)) {
-//            System.out.println("reassadsadsada");
-//            return Double.NEGATIVE_INFINITY;
-//        } else if ((winner.equalsIgnoreCase("red") && !isBlueMaximizer) || (winner.equalsIgnoreCase("blue") && isBlueMaximizer)) {
-//            return Double.POSITIVE_INFINITY;
-//        } else {
-//            System.out.println("Bug at GetEndValue");
-//            return 0;
-//        }
     }
+
+    public static void solveFromRoot(State root) throws IOException {
+        Queue<State> queue = new LinkedList<>();
+        queue.add(root);
+        solve(queue, new TranspositionTable());
+    }
+
+    public static void solve(Queue<State> queue, TranspositionTable table) throws IOException {
+        List<StateData> toSave = new ArrayList<>();
+        while(!queue.isEmpty() && toSave.size() <= 1000){
+            State first = queue.peek();
+            if (!table.isExists(first)){
+                if (first.isEnd()){
+                    first.setStateValue(getEndValue(first));
+                    toSave.add(new StateData(first));
+                }else{
+                    List<State> children = getNextStates(first,table);
+                    queue.addAll(children);
+                    toSave.add(new StateData(first));
+                }
+            }
+            queue.remove();
+        }
+        System.out.println("List to Save size: " + toSave.size());
+        IOEngine.writeToFile(toSave, "C:\\Onitama State Table\\Table.txt");
+        List<StateData> queueToSave = new ArrayList<>();
+        for (State s : queue){
+            queueToSave.add(new StateData(s));
+        }
+        IOEngine.writeToFile(queueToSave, "C:\\Onitama State Table\\Queue.txt");
+    }
+
+
+
 
     public static int getNumberOfPossibleMove(State state, boolean isBlueTurn) {
         int totalMoves = 0;
@@ -129,6 +160,10 @@ public class Solver {
         return totalMoves;
     }
 
+
+
+
+
     public static double evaluateState(State state) {
         if (state.isEnd()) {
             return getEndValue(state);
@@ -137,21 +172,26 @@ public class Solver {
                 (Amount of maximizer pieces * weight) - (Amount of minimizer pieces * weight)
                  + (number of possible moves for maximizer - number of possible moves for minimizer)
             */
-            double stateValue = state.getBoard().getBluePieces().size();
-            stateValue -= state.getBoard().getRedPieces().size();
-            stateValue += getNumberOfPossibleMove(state, true);
-            stateValue -= getNumberOfPossibleMove(state, false);
+            double stateValue = state.getBoard().getBluePieces().size() * pieceValueWeight;
+            stateValue -= state.getBoard().getRedPieces().size() * pieceValueWeight;
+            stateValue += getNumberOfPossibleMove(state, true) * numberOfAvailbleMoveWeight;
+            stateValue -= getNumberOfPossibleMove(state, false) * numberOfAvailbleMoveWeight;
             return stateValue;
         }
     }
 
-    public static double negamax(State state, int depth, boolean isBlue, TranspositionTable table) {
+    public static double evaluateWinOnly(State state) {
+        if (state.isEnd()) {
+            return getEndValue(state);
+        } else {
+            return 0;
+        }
+    }
+
+    public static double minimax(State state, int depth, boolean isBlue, TranspositionTable table) {
         if (depth == 0) {
             double value = evaluateState(state);
             state.setStateValue(value);
-//            state.printState();
-//            state.getCardState().print();
-//            System.out.println("----------");
             return value;
         }
         if (state.isEnd()) {
@@ -159,12 +199,40 @@ public class Solver {
             state.setStateValue(value);
             return value;
         }
-        double value = Double.NEGATIVE_INFINITY;
-        List<State> children = getNextStates(state, table);
-        for (State child : children) {
-            value = Math.max(value, -negamax(child, depth - 1, !isBlue, table));
+        if (isBlue){
+            double value = Double.NEGATIVE_INFINITY;
+            List<State> children = getNextStates(state, table);
+            for (State child : children){
+                value = Math.max(value, minimax(child, depth - 1, false, table));
+            }
+            return value;
+        }else{
+            double value = Double.POSITIVE_INFINITY;
+            List<State> children = getNextStates(state, table);
+            for (State child : children){
+                value = Math.min(value, minimax(child, depth - 1, true, table));
+            }
+            return value;
         }
-        state.setStateValue(value);
-        return value;
+
+
+
+//        if (depth == 0) {
+//            double value = evaluateState(state);
+//            state.setStateValue(value);
+//            return value;
+//        }
+//        if (state.isEnd()) {
+//            double value = evaluateState(state);
+//            state.setStateValue(value);
+//            return value;
+//        }
+//        double value = Double.POSITIVE_INFINITY;
+//        List<State> children = getNextStates(state, table);
+//        for (State child : children) {
+//            value = Math.min(value, -minimax(child, depth - 1, !isBlue, table));
+//        }
+//        state.setStateValue(value);
+//        return value;
     }
 }

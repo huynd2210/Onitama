@@ -1,5 +1,6 @@
 package data;
 
+import engine.LogicEngine;
 import lombok.*;
 import pojo.Board;
 
@@ -22,7 +23,7 @@ public class State {
     private int currentDepth;
     private int hash;
 
-    public State(State other){
+    public State(State other) {
         this.cardState = new CardState(other.cardState);
         this.board = new Board(other.getBoard());
         this.currentPlayerTurn = other.currentPlayerTurn;
@@ -37,7 +38,7 @@ public class State {
     }
 
     //Init Root
-    public State(CardState cardState){
+    public State(CardState cardState) {
         this.cardState = cardState;
         this.board = new Board();
         determineFirstPlayer();
@@ -50,12 +51,25 @@ public class State {
         this.hash = this.hashCode();
     }
 
-    private void copyChildren(State other){
+    public State(Board board, CardState cardState, String currentPlayerTurn){
+        this.cardState = cardState;
+        this.board = board;
+        this.currentPlayerTurn = currentPlayerTurn;
+        this.winner = "none";
+        this.isEnd = LogicEngine.isEnd(board);
+        this.stateValue = 0;
+        this.childrenHash = new ArrayList<>();
+        this.parentHash = new ArrayList<>();
+        this.currentDepth = 0;
+        this.hash = this.hashCode();
+    }
+
+    private void copyChildren(State other) {
         this.childrenHash = new ArrayList<>();
         this.childrenHash.addAll(other.childrenHash);
     }
 
-    public void printState(){
+    public void printState() {
         this.board.printBoard();
         System.out.println(this.currentPlayerTurn);
         System.out.println(this.winner);
@@ -63,25 +77,33 @@ public class State {
         System.out.println(this.stateValue);
     }
 
-    public void determineFirstPlayer(){
-        if (this.cardState.getCurrentNeutralCard().getColor().equalsIgnoreCase("blue")){
+    public void printGameState() {
+        this.board.printBoard();
+        System.out.println(this.currentPlayerTurn);
+        this.cardState.print();
+        System.out.println(this.stateValue);
+
+    }
+
+    public void determineFirstPlayer() {
+        if (this.cardState.getCurrentNeutralCard().getColor().equalsIgnoreCase("blue")) {
             this.currentPlayerTurn = "blue";
-        }else{
+        } else {
             this.currentPlayerTurn = "red";
         }
     }
 
-    public void setChildrenHash(List<State> children){
-        for (State s : children){
+    public void setChildrenHash(List<State> children) {
+        for (State s : children) {
             this.childrenHash.add(s.hash);
         }
     }
 
-    public void addParent(State parent){
+    public void addParent(State parent) {
         this.parentHash.add(parent.hash);
     }
 
-    public void updateHash(){
+    public void updateHash() {
         this.hash = this.hashCode();
     }
 

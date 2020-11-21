@@ -39,7 +39,7 @@ public class Card {
     }
 
     public void print(){
-        System.out.println(name);
+        System.out.print(name + " ");
     }
 
 }

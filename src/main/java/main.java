@@ -2,13 +2,17 @@ import data.CardState;
 import data.State;
 import data.StateData;
 import engine.DataController;
+import engine.IOEngine;
 import engine.LogicEngine;
+import game.Game;
+import lombok.extern.java.Log;
 import pojo.Board;
 import pojo.Card;
 import pojo.CardList;
 import solver.Solver;
 import solver.TranspositionTable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +150,24 @@ public class main {
     }
 
 
-    public static void main(String[] args) {
+    public static void testStateData() {
+        List<Card> blue = new ArrayList<>();
+        blue.add(CardList.tigerCard);
+        blue.add(CardList.crabCard);
+        List<Card> red = new ArrayList<>();
+        red.add(CardList.horseCard);
+        red.add(CardList.craneCard);
+        CardState cardState = new CardState(blue, red, CardList.rabbitCard);
+        State root = new State(cardState);
+        Solver.getNextStates(root, new TranspositionTable());
+        for (Integer s : root.getChildrenHash()) {
+            System.out.println(s);
+        }
+        StateData tmp = new StateData(root);
+        System.out.println(tmp);
+    }
+
+    public static void main(String[] args) throws IOException {
 //        Board board = DataController.parseNotation("ppmpp/5/5/2P2/PPM1P");
 //        board.printBoard();
 
@@ -157,23 +178,39 @@ public class main {
         red.add(CardList.horseCard);
         red.add(CardList.craneCard);
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
+
         State root = new State(cardState);
-        Solver.getNextStates(root, new TranspositionTable());
-        for (Integer s : root.getChildrenHash()){
-            System.out.println(s);
-        }
-        StateData tmp = new StateData(root);
-        System.out.println(tmp);
+//        Solver.solveFromRoot(root);
 
 
-//        System.out.println(Solver.negamax(root,6,true, new TranspositionTable()));
 
-//        int depthMax = 5;
-//        System.out.println("Iterative Negamax for blue for depth 5: ");
-//        for (int i = 1; i <= depthMax; i++) {
-//            System.out.println("Depth: " + i + " Score: " + Solver.negamax(root, i, true));
+        IOEngine.readTest("C:\\Onitama State Table\\Table.txt");
+
+
+////        Game game = new Game(cardState, "blue");
+////
+//        List<State> children = Solver.getNextStates(root, new TranspositionTable());
+//        for (State s : children) {
+//            s.getBoard().printBoard();
+//            System.out.println(Solver.evaluateState(s));
 //        }
+//        System.out.println("--------------");
+//        System.out.println(Solver.minimax(root, 1, true, new TranspositionTable()));
+//        System.out.println("--------------");
+//
+//        State child = children.get(children.size() - 1);
+//        List<State> grandChildren = Solver.getNextStates(child, new TranspositionTable());
+//        for (State s : grandChildren) {
+//            s.getBoard().printBoard();
+//            System.out.println(Solver.minimax(child, 3, false, new TranspositionTable()));
+//        }
+//        System.out.println("--------------");
+//        System.out.println(Solver.minimax(child, 1, false, new TranspositionTable()));
 
 
+//        Board board = DataController.parseNotation("pp1pm/2M2/5/5/PP1PP");
+//        board.printBoard();
+//        System.out.println(LogicEngine.isEnd(board));
+//
     }
 }

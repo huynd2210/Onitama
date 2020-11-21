@@ -2,10 +2,7 @@ package engine;
 
 import data.CardState;
 import data.State;
-import pojo.Board;
-import pojo.Card;
-import pojo.Coordinate;
-import pojo.PieceList;
+import pojo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,18 +95,43 @@ public class DataController {
     }
 
 
-    public static String getCardStateNotation(CardState cardState){
+    public static String getCardStateNotation(CardState cardState) {
         StringBuilder sb = new StringBuilder();
         sb.append(cardState.getCurrentNeutralCard().getName());
         sb.append("/");
-        for (Card c : cardState.getCurrentBlueHand()){
+        for (Card c : cardState.getCurrentBlueHand()) {
             sb.append(c.getName());
             sb.append("/");
         }
-        for (Card c : cardState.getCurrentRedHand()){
+        for (Card c : cardState.getCurrentRedHand()) {
             sb.append(c.getName());
             sb.append("/");
         }
         return sb.toString();
+    }
+
+    public static List<Integer> initHashFromString(String data) {
+        List<Integer> hashList = new ArrayList<>();
+        data = data.replace("[", "");
+        data = data.replace("]", "");
+        data = data.replace(" ", "");
+
+        if (!data.isEmpty()) {
+            String[] tokens = data.split(",");
+            for (String s : tokens) {
+                hashList.add(Integer.parseInt(s));
+            }
+        }
+        return hashList;
+    }
+
+    public static List<Card> getAllCards(){
+        List<Card> cards = new ArrayList<>();
+        cards.add(CardList.horseCard);
+        cards.add(CardList.tigerCard);
+        cards.add(CardList.crabCard);
+        cards.add(CardList.craneCard);
+        cards.add(CardList.rabbitCard);
+        return cards;
     }
 }

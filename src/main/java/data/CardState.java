@@ -1,5 +1,6 @@
 package data;
 
+import engine.DataController;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,32 +16,53 @@ public class CardState {
     private List<Card> currentRedHand;
     private Card currentNeutralCard;
 
-    public CardState (CardState other){
+    public CardState(CardState other) {
         this.currentBlueHand = new ArrayList<>();
         this.currentRedHand = new ArrayList<>();
-        for (Card c : other.currentBlueHand){
+        for (Card c : other.currentBlueHand) {
             this.currentBlueHand.add(new Card(c));
         }
 
-        for (Card c : other.currentRedHand){
+        for (Card c : other.currentRedHand) {
             this.currentRedHand.add(new Card(c));
         }
         this.currentNeutralCard = new Card(other.currentNeutralCard);
     }
 
-    public void print(){
-        System.out.println("Blue Hand");
-        for (Card c : currentBlueHand){
-            c.print();
+    public CardState(String notation) {
+        String[] tokens = notation.split("/");
+        this.currentBlueHand = new ArrayList<>();
+        this.currentRedHand = new ArrayList<>();
+        for (Card c : DataController.getAllCards()) {
+            if (tokens[0].equalsIgnoreCase(c.getName())) {
+                this.currentNeutralCard = c;
+            } else if (tokens[1].equalsIgnoreCase(c.getName())) {
+                this.currentBlueHand.add(c);
+            } else if (tokens[2].equalsIgnoreCase(c.getName())) {
+                this.currentBlueHand.add(c);
+            } else if (tokens[3].equalsIgnoreCase(c.getName())) {
+                this.currentRedHand.add(c);
+            } else if (tokens[4].equalsIgnoreCase(c.getName())) {
+                this.currentRedHand.add(c);
+            }
         }
-        System.out.println("Red Hand:");
-        for (Card c : currentRedHand){
-            c.print();
-        }
-        System.out.println("Neutral Card:");
-        this.currentNeutralCard.print();
     }
 
+    public void print() {
+        System.out.print("Blue Hand: ");
+        for (Card c : currentBlueHand) {
+            c.print();
+        }
+        System.out.println();
+        System.out.print("Red Hand: ");
+        for (Card c : currentRedHand) {
+            c.print();
+        }
+        System.out.println();
+        System.out.print("Neutral Card: ");
+        this.currentNeutralCard.print();
+        System.out.println();
+    }
 
 
 }

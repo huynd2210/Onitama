@@ -1,0 +1,14 @@
+
+H
+java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ
+S	java:S106w"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ
+S	java:S106|"9Replace this use of System.out or System.err by a logger.(ƒº´ÿÿÿÿÿ
+/
+java:S1700"Rename field "board"(ÛÀíûÿÿÿÿ
+O	java:S106‚"9Replace this use of System.out or System.err by a logger.(­‰é
+T	java:S106€"9Replace this use of System.out or System.err by a logger.(ñ‚»ƒşÿÿÿÿ
+S	java:S106q"9Replace this use of System.out or System.err by a logger.(å‡ëÇøÿÿÿÿ
+S	java:S106s"9Replace this use of System.out or System.err by a logger.(á—éáşÿÿÿÿ
+N	java:S106~"9Replace this use of System.out or System.err by a logger.(­‰é
+<
+java:S1170"!Make this final field static too.(Š³ƒïûÿÿÿÿ
