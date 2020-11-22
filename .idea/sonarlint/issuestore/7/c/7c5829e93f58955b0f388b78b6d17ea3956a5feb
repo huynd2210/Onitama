@@ -1,0 +1,18 @@
+
+g
+java:S2095+"EUse try-with-resources or close this "Scanner" in a "finally" clause.(Èñ¾„ıÿÿÿÿ8•…ÃåŞ.
+W
+java:S1118":Add a private constructor to hide the implicit public one.(ÃÇ¦ü8»·öãŞ.
+U	java:S1063"9Replace this use of System.out or System.err by a logger.(ü­¯ˆ8•…ÃåŞ.
+O
+java:S1128"2Remove this unused import 'com.opencsv.CSVWriter'.(¦²Ö8ÅÂäŞ.
+X	java:S1255"<This block of commented-out lines of code should be removed.(¬ä¸8Û¹ÛäŞ.
+W	java:S125,"<This block of commented-out lines of code should be removed.(Í´í8Ü¹İäŞ.
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(¥ÉÈİşÿÿÿÿ8»·öãŞ.
+U	java:S106/"9Replace this use of System.out or System.err by a logger.(ĞÌûı8Å²àäŞ.
+M
+java:S1128
+"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ÅÂäŞ.
+j
+java:S2095"HUse try-with-resources or close this "FileWriter" in a "finally" clause.(ô¼Ò®üÿÿÿÿ8ô“ÆäŞ.
+Z	java:S1062"9Replace this use of System.out or System.err by a logger.(©úËÔÿÿÿÿÿ8çßÃåŞ.

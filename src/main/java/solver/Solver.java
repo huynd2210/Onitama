@@ -38,9 +38,10 @@ public class Solver {
     }
 
     public static List<State> getNextStates(State parent, TranspositionTable table) {
-        if (parent.isEnd()) {
+        if (parent.isEnd() ) {
             return new ArrayList<>();
         }
+
         List<State> children = new ArrayList<>();
         if (parent.getCurrentPlayerTurn().equalsIgnoreCase("blue")) {
             for (Card c : parent.getCardState().getCurrentBlueHand()) {
@@ -52,6 +53,7 @@ public class Solver {
                             copy.updateHash();
                             if (!table.isExists(copy)) {
                                 children.add(copy);
+//                                table.put(copy);
                             } else {
                                 //table get child add parent
                                 table.get(copy.getHash()).addParent(parent);
@@ -71,6 +73,7 @@ public class Solver {
                             copy.updateHash();
                             if (!table.isExists(copy)) {
                                 children.add(copy);
+//                                table.put(copy);
                             } else {
                                 //table get child add parent
                                 table.get(copy.getHash()).addParent(parent);
@@ -104,11 +107,12 @@ public class Solver {
 
     public static void solve(Queue<State> queue, TranspositionTable table) throws IOException {
         List<StateData> toSave = new ArrayList<>();
-        while(!queue.isEmpty() && toSave.size() <= 1000){
+        while(!queue.isEmpty() && queue.size() <= 2500){
             State first = queue.peek();
             if (!table.isExists(first)){
+                table.put(first);
                 if (first.isEnd()){
-                    first.setStateValue(getEndValue(first));
+                    first.setStateValue(evaluateState(first));
                     toSave.add(new StateData(first));
                 }else{
                     List<State> children = getNextStates(first,table);
@@ -118,6 +122,7 @@ public class Solver {
             }
             queue.remove();
         }
+        System.out.println("Transposition Table size : " + table.getStateHashMapping().size());
         System.out.println("List to Save size: " + toSave.size());
         IOEngine.writeToFile(toSave, "C:\\Onitama State Table\\Table.txt");
         List<StateData> queueToSave = new ArrayList<>();
@@ -174,8 +179,6 @@ public class Solver {
             */
             double stateValue = state.getBoard().getBluePieces().size() * pieceValueWeight;
             stateValue -= state.getBoard().getRedPieces().size() * pieceValueWeight;
-            stateValue += getNumberOfPossibleMove(state, true) * numberOfAvailbleMoveWeight;
-            stateValue -= getNumberOfPossibleMove(state, false) * numberOfAvailbleMoveWeight;
             return stateValue;
         }
     }

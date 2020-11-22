@@ -1,7 +1,7 @@
 
-C
-java:S1170"!Make this final field static too.(ıûÚÑşÿÿÿÿ8ÕğÃ˜Ş.
-U	java:S106P"9Replace this use of System.out or System.err by a logger.(‰ÑÓ–8ıÉ•Ş.
-U	java:S106G"9Replace this use of System.out or System.err by a logger.(¹¼ê8ÕçÅ—Ş.
-Z	java:S106Q"9Replace this use of System.out or System.err by a logger.(¢àşúÿÿÿÿ8ıÉ•Ş.
-Z	java:S106D"9Replace this use of System.out or System.err by a logger.(õŞÑşÿÿÿÿÿ8’”Ã•Ş.
+X	java:S106"9Replace this use of System.out or System.err by a logger.(¢àşúÿÿÿÿ8ıÉ•Ş.
+S	java:S106"9Replace this use of System.out or System.err by a logger.(‰ÑÓ–8ıÉ•Ş.
+X	java:S106"9Replace this use of System.out or System.err by a logger.(õŞÑşÿÿÿÿÿ8’”Ã•Ş.
+S	java:S106"9Replace this use of System.out or System.err by a logger.(¹¼ê8ÕçÅ—Ş.
+A
+java:S1170"!Make this final field static too.(ÍÏ¯†øÿÿÿÿ8ÕğÃ˜Ş.

@@ -1,11 +1,6 @@
 
-U	java:S106L"9Replace this use of System.out or System.err by a logger.(äâÔÊ8ÑÒç±Ş.
-Z	java:S106N"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8Âºé±Ş.
-X	java:S125a"<This block of commented-out lines of code should be removed.(ú¢¨Ù8É®€ªŞ.
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¥–Ñµúÿÿÿÿ
-X	java:S125\"<This block of commented-out lines of code should be removed.(ú¢¨Ù8É®€ªŞ.
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ù²¼¶øÿÿÿÿ8ˆõ¥˜Ş.
-X	java:S125W"<This block of commented-out lines of code should be removed.(ú¢¨Ù8©”ÑªŞ.
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ÿ°³Úıÿÿÿÿ8ÂÔ¦˜Ş.
-y
-java:S1488O"\Immediately return this expression instead of assigning it to the temporary variable "best".(®’à8ÔÀ÷«Ş.
+r	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¥–Ñµúÿÿÿÿ
+X	java:S106"9Replace this use of System.out or System.err by a logger.(Ÿ°³Úıÿÿÿÿ8ÂÔ¦˜Ş.
+X	java:S106"9Replace this use of System.out or System.err by a logger.(Ù²¼¶øÿÿÿÿ8ˆõ¥˜Ş.
+M
+java:S1172"3Remove this unused method parameter "currentState".(œ‹Q8ˆá¦ÔŞ.

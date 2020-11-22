@@ -37,6 +37,10 @@ public class IOEngine {
         }
     }
 
+    public static void appendToFile(){
+
+    }
+
     public static void readTest(String path) throws FileNotFoundException {
         try {
             File file = new File(path);

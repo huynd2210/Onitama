@@ -180,11 +180,11 @@ public class main {
         CardState cardState = new CardState(blue, red, CardList.rabbitCard);
 
         State root = new State(cardState);
-//        Solver.solveFromRoot(root);
+        Solver.solveFromRoot(root);
 
 
 
-        IOEngine.readTest("C:\\Onitama State Table\\Table.txt");
+//        IOEngine.readTest("C:\\Onitama State Table\\Table.txt");
 
 
 ////        Game game = new Game(cardState, "blue");

@@ -1,9 +1,11 @@
 
-h
-java:S3776#"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(£Μ«­
-h
-java:S3776^"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(²υ¨
-P
-java:S1118":Add a private constructor to hide the implicit public one.(–ϋΖΉ
+U	java:S106y"9Replace this use of System.out or System.err by a logger.(†κ³³8Π¦‹δή.
+p
+java:S3776…"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(²υ¨8ΐ”Θδή.
 S
-java:S1068"1Remove this unused "discountValue" private field.(Ò·‘„ÿÿÿÿÿ8ΚΡ«ή.
+java:S1068"1Remove this unused "discountValue" private field.(Ò·‘„ÿÿÿÿÿ8Π¦‹δή.
+Y	java:S125ά"<This block of commented-out lines of code should be removed.(΅μ΅σ8ΐ”Θδή.
+o
+java:S3776("RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(£Μ«­8Π¦‹δή.
+W
+java:S1118":Add a private constructor to hide the implicit public one.(–ϋΖΉ8Π¦‹δή.
